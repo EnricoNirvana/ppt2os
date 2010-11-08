@@ -1,0 +1,10 @@
+[converter]
+port=5061
+workpath=../process
+
+[uploader]
+port=5060
+workpath=../../process/
+
+[web]
+user_server = http://myusergridservice.org:8002/

@@ -1,0 +1,17 @@
+== Install ==
+cd ppt2os
+cp ppt2os.ini.example ppt2os.ini
+* Point the user-service setting to your own grid
+screen -S poi_converter
+cd poi_converter
+java -jar poi_converter.jar
+* ctrl-a+d
+screen -S upload_service
+cd upload_service/bin
+mono upload_service
+* ctrl-a+d
+screen -S web_tester
+cd web
+python manage.py runserver 0.0.0.0:8000
+* Point your browser to 127.0.0.1:8000, and try uploading a ppt
+* There is also a commandline testscript in process/process_test.py

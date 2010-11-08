@@ -1,0 +1,109 @@
+::-webkit-scrollbar:vertical {
+		background-color:#376c82;
+}
+
+#messaging_container {
+	width:100%;
+	height:100%;
+	float:top;
+}
+
+#message_box {
+	width:100%;
+	height:275px;
+	background-color:#FFF;
+	overflow-y:scroll;
+	overflow-x:hidden;	
+}
+
+#message_input_field {
+	width:90%;
+	padding:0px;
+	padding-bottom:7px;
+	padding-top:7px;
+	display:block;
+	margin: 0px auto;
+}
+
+#message_input {
+	width:100%;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+#online_box {
+	width:100%;
+	height:175px;
+	background-color:#FFF;
+	overflow-y:scroll;
+	overflow-x:hidden;
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+}
+
+.disabled {
+	background-color:#CCC !important;
+	color:#BBB !important;
+	cursor:wait !important;
+}
+
+.my_messageheader {
+	font-weight:bold;
+}
+
+.my_messagebody0 {
+	background-color:#f3fcff;
+	font-size:12px;
+	color:#666;
+	padding:2px;
+	font-style:italic;
+}
+
+.my_messagebody1 {
+	background-color:#e1f5ff;
+	font-size:12px;
+	color:#666;
+	padding:2px;
+	font-style:italic;
+}
+
+.from_messageheader {
+	font-weight:bold;
+}
+
+.from_messagebody0 {
+	background-color:#f3fcff;
+	font-size:12px;
+	color:#376c82;
+	padding:2px;
+}
+
+.from_messagebody1 {
+	background-color:#e1f5ff;
+	font-size:12px;
+	color:#376c82;
+	padding:2px;
+}
+
+.profile_body0 {
+	padding:5px;
+	background-color:#f3fcff;
+	font-size:12px;
+	color:#376c82;
+}
+
+.profile_body1 {
+	padding:5px;
+	background-color:#e1f5ff;
+	font-size:12px;
+	color:#376c82;
+}
+
+.message_notification {
+	padding:5px;
+	font-size:12px;
+	color:#376c82;	
+	font-weight:bold;
+}

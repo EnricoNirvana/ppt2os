@@ -1,0 +1,122 @@
+<html>
+<head>
+<!DOCTYPE html>
+<title>PPT2OS</title>
+<link type='text/css' href='media/themes/start/css/ui.all.css' media='screen' rel='stylesheet' />
+<script type='text/javascript' src='media/jquery.require.js'></script>
+<script type='text/javascript' src='media/jquery.serialobj.js'></script>
+<script type='text/javascript' src='media/jquery.ui.js'></script>
+<script type='text/javascript' src='media/jquery.ui.dialogr.js'></script>
+<script type='text/javascript' src='media/json.js'></script>
+<script type='text/javascript' src='media/jquery.xhr_upload.js'></script>
+<script type='text/javascript' src='media/jquery.jgrowl.js'></script>
+</head>
+<body>
+<div class='hwios-widget'>
+    <div class="ui-widget-header ui-corner-top"><span>Upload PowerPoint</span></div>
+    <div class="ui-widget-content ui-corner-bottom contenttext">    
+    <form method="post" action="" enctype="multipart/form-data">{% csrf_token %}
+    {{form.as_p}}
+    <p><div><label>Selected files</label></div><div id="upload-selected"></div></p>
+    <p><label for="id_powerpoint"></label><input type="file" name="Select" id="id_powerpoint" /></p>
+    <p><label for="status-indicator">Status</label><div id="status-indicator"></div></p>
+    <p><label for="status-indicator-finished"></label><div id="status-indicator-finished"></div></p>
+    </form>  
+    </div>
+</div>
+<div class='hwios-widget'>
+    <div class="action-bar fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix">
+        <div class="fg-buttonset fg-buttonset-single ui-helper-clearfix">
+            <button id='btn-ppt-upload-cancel' class='fg-button ui-state-default fg-button-icon-left ui-corner-left'><span class='ui-icon ui-icon-document'></span>Cancel</button>
+            <button id='btn-ppt-upload-start' class='fg-button ui-state-default fg-button-icon-left ui-state-disabled'><span class='ui-icon ui-icon-pencil'></span>Start</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+<script>
+$(document).ready(function() {
+    hwios = {};
+    hwios.functions = {};
+    var file_list = [];
+    var _ppts_for_upload = {names:[],firstname:'',lastname:'',password:''};
+    
+    selection_changed = function(files) {
+    //alert(files);
+    }
+    
+    
+            $('#id_powerpoint').xhr_upload({
+                url:'/',
+                submit:'#btn-ppt-upload-start',
+                cancel:'#btn-ppt-upload-cancel',
+                formats:['.ppt'],
+                select_box:'#upload-selected',
+                progress:'#status-indicator',
+                }, function(files) {
+                file_list = files;
+                });
+            
+        $("body").delegate("button", "click", function(event){
+        var function_name = $(this).attr('id').substring(4).replace(/-/g,'_');
+            if (typeof hwios.functions[function_name] === 'function' && !$(this).hasClass('ui-state-disabled') && !$(this).hasClass('action-icon-disabled')) {
+                if ($(this).val() != '') {
+                hwios.functions[function_name]($(this).val());
+                }
+                else {
+                hwios.functions[function_name]();
+                }
+            }           
+        });     
+
+        
+    hwios.functions.ppt_upload_start = function() {
+    $('#id_powerpoint').xhr_upload('send',function(response){  
+        //STEP 1 FINISHED
+        $('#status-indicator-finished').append('<div class="process-step"><p>'+file_list.names.length+' presentation(s) uploaded</p><p><ul id="ppt_list"></ul></p</div>');
+        var pptlist_html = '';
+        $.each(file_list.names, function(index, ppt) {
+        pptlist_html +='<li>'+ppt+'</li>';
+        });
+        $('#ppt_list').html(pptlist_html);
+        
+        //WORKING ON STEP 2
+        $('#status-indicator').html('<p>Converting Slides...</p>');
+        $.post("/convert/",file_list, function(response){ 
+            //STEP 2 FINISHED            
+            var slidehtml = '';
+            $.each( response.data.slides, function(index, ppt_slides){   
+                $.each(ppt_slides, function(index, slide) {
+                slidehtml +='<li>'+slide+'</li>';
+                _ppts_for_upload.names.push(slide);
+                });
+            });
+            $('#status-indicator-finished').append('<div class="process-step"><p>'+_ppts_for_upload.names.length+' extracted slides:</p><p><ul id="slide_list"></ul></p></div>');
+            $('#slide_list').html(slidehtml);
+            
+            //WORKING ON STEP 3
+            $('#status-indicator').html('<p>Uploading slides to inventory...</p>');
+            _ppts_for_upload.firstname = $('#id_first_name').val();
+            _ppts_for_upload.lastname = $('#id_last_name').val();
+            _ppts_for_upload.password = $('#id_password').val();
+            $.post("/upload/",_ppts_for_upload, function(response){ 
+                //STEP 3 FINISHED
+                $('#status-indicator-finished').append('<div class="process-step"><p>'+response.data.assets.length+' assets uploaded into inventory:</p><p><ul id="asset_list"></ul></p></div>');
+                var assetlist_html = '';
+                $.each(response.data.assets, function(index, asset) {
+                assetlist_html +='<li>'+asset+'</li>';
+                });
+                $('#asset_list').html(assetlist_html); 
+                $('#status-indicator').html('<p>Powerpoint upload completed...</p>');
+                setTimeout("window.location = '/'",1250);
+            },"json");            
+        },"json");
+    });
+    }   
+
+});
+</script>
+</html>
