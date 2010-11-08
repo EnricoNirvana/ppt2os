@@ -1,3 +1,6 @@
+==About==
+ppt2os allows you to upload powerpoint presentations to OpenSim, where they end up as slides in the user's inventory. The purpose of the project is to decrease the amount of time, involved in setting up a presentation in-world, by automating the process.
+
 == Install ==
 cd ppt2os
 cp ppt2os.ini.example ppt2os.ini
