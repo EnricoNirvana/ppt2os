@@ -1,4 +1,4 @@
-==About==
+== About ==
 ppt2os allows you to upload powerpoint presentations to OpenSim, where they end up as slides in the user's inventory. The purpose of the project is to decrease the amount of time, involved in setting up a presentation in-world, by automating the process.
 
 == Install ==
@@ -18,3 +18,7 @@ cd web
 python manage.py runserver 0.0.0.0:8000
 * Point your browser to 127.0.0.1:8000, and try uploading a ppt
 * There is also a commandline testscript in process/process_test.py
+
+== Issues ==
+* The uploader service fails silently sometimes
+* POI-Converter needs liberation fonts installed, or it will fail with a big bang
