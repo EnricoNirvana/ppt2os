@@ -23,7 +23,7 @@ public class PPT2OSService
 	private static Wini ini;
 	
 	
-	public ArrayList ppt_to_png(String ppt_name, String format) throws IOException
+	public ArrayList ppt_to_png(String ppt_name, String target_dir, String format) throws IOException
 	{
 		ArrayList slides = new ArrayList();
 		System.out.println("Converting " + ppt_name);
@@ -45,7 +45,17 @@ public class PPT2OSService
 			int index = ppt_name.lastIndexOf('.');
 			String slidename = ppt_name.substring(0,index)+"-slide-"  + (i+1) + "." + format;
 			slides.add(slidename);
-			FileOutputStream out = new FileOutputStream(ini.get("converter","workpath")+"/"+slidename);
+			
+			 // Create multiple directories
+			File tdir = new File(ini.get("converter","workpath")+"/"+target_dir);
+			if (!tdir.exists())
+			{
+			    boolean success = tdir.mkdirs();
+			    if (!success) {
+			    	System.out.println("Problem while creating dirs!");		
+			    }	
+			}
+			FileOutputStream out = new FileOutputStream(ini.get("converter","workpath")+"/"+target_dir+slidename);
 			javax.imageio.ImageIO.write(img, format, out);
 			out.close();
 		}
