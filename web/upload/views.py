@@ -25,9 +25,8 @@ def index(request):
         response = {'status':{'code':'FILE_UPLOADED','feedback':'File(s) succesfully uploaded'}}
         return HttpResponse(json.dumps(response), mimetype='application/json')  
     else:
-        print 
         form = UploadFileForm()
-    return render_to_response('index.html', {'form': form},context_instance=RequestContext(request))
+    return render_to_response('index.html', {},context_instance=RequestContext(request))
     
 
 def convert(request):
@@ -36,7 +35,7 @@ def convert(request):
     ppt_proxy = xmlrpclib.ServerProxy("http://127.0.0.1:%s" % ppt2os_config.getint("converter","port"))
     total_slides = {}
     for ppt in ppts: 
-        total_slides[ppt] = ppt_proxy.ppt2os.ppt_to_png(ppt,'jpg')        
+        total_slides[ppt] = ppt_proxy.ppt2os.ppt_to_png(ppt,'dirname','jpg')        
     response = {'status':{'code':'FILE_CONVERTED','feedback':'File(s) succesfully converted'},'data':{'slides':total_slides}}
     return HttpResponse(json.dumps(response), mimetype='application/json')  
     

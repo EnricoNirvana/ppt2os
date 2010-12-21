@@ -7,7 +7,7 @@ ppt2os_config = ConfigParser()
 ppt2os_config.read(os.path.join('../','../','ppt2os.ini'))
 print "\nTesting Converter...\n"
 converter_proxy = xmlrpclib.ServerProxy("http://127.0.0.1:%s" % ppt2os_config.getint("converter","port"))
-slides = converter_proxy.ppt2os.ppt_to_png('process_test.ppt','foo/bar/','jpg')
+slides = converter_proxy.ppt2os.ppt_to_png('process_test.ppt','foobar','jpg')
 print "slides converted: %s" % slides
 
 #print "\nTesting Uploader...\n"

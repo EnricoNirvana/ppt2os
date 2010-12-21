@@ -50,12 +50,12 @@ public class PPT2OSService
 			File tdir = new File(ini.get("converter","workpath")+"/"+target_dir);
 			if (!tdir.exists())
 			{
-			    boolean success = tdir.mkdirs();
+			    boolean success = tdir.mkdir();
 			    if (!success) {
 			    	System.out.println("Problem while creating dirs!");		
 			    }	
 			}
-			FileOutputStream out = new FileOutputStream(ini.get("converter","workpath")+"/"+target_dir+slidename);
+			FileOutputStream out = new FileOutputStream(ini.get("converter","workpath")+"/"+target_dir+"/"+slidename);
 			javax.imageio.ImageIO.write(img, format, out);
 			out.close();
 		}

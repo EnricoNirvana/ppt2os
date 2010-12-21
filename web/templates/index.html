@@ -98,21 +98,21 @@ $(document).ready(function() {
             $('#slide_list').html(slidehtml);
             
             //WORKING ON STEP 3
-            $('#status-indicator').html('<p>Uploading slides to inventory...</p>');
-            _ppts_for_upload.firstname = $('#id_first_name').val();
-            _ppts_for_upload.lastname = $('#id_last_name').val();
-            _ppts_for_upload.password = $('#id_password').val();
-            $.post("/upload/",_ppts_for_upload, function(response){ 
-                //STEP 3 FINISHED
-                $('#status-indicator-finished').append('<div class="process-step"><p>'+response.data.assets.length+' assets uploaded into inventory:</p><p><ul id="asset_list"></ul></p></div>');
-                var assetlist_html = '';
-                $.each(response.data.assets, function(index, asset) {
-                assetlist_html +='<li>'+asset+'</li>';
-                });
-                $('#asset_list').html(assetlist_html); 
-                $('#status-indicator').html('<p>Powerpoint upload completed...</p>');
-                setTimeout("window.location = '/'",1250);
-            },"json");            
+            //$('#status-indicator').html('<p>Uploading slides to inventory...</p>');
+            //_ppts_for_upload.firstname = $('#id_first_name').val();
+            //_ppts_for_upload.lastname = $('#id_last_name').val();
+            //_ppts_for_upload.password = $('#id_password').val();
+            //$.post("/upload/",_ppts_for_upload, function(response){ 
+            //    //STEP 3 FINISHED
+            //    $('#status-indicator-finished').append('<div class="process-step"><p>'+response.data.assets.length+' assets uploaded into inventory:</p><p><ul id="asset_list"></ul></p></div>');
+            //    var assetlist_html = '';
+            //    $.each(response.data.assets, function(index, asset) {
+            //    assetlist_html +='<li>'+asset+'</li>';
+            //    });
+            //    $('#asset_list').html(assetlist_html); 
+           //},"json");   
+            $('#status-indicator').html('<p>Powerpoint upload completed...</p>');
+            setTimeout("window.location = '/'",1250);         
         },"json");
     });
     }   
